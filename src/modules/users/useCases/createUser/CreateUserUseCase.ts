@@ -7,10 +7,17 @@ interface IRequest {
 }
 
 class CreateUserUseCase {
-  constructor(private usersRepository: IUsersRepository) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private usersRepository: IUsersRepository) { }
 
   execute({ email, name }: IRequest): User {
-    // Complete aqui
+    const userAlredyExits = this.usersRepository.findByEmail(email);
+
+    if (userAlredyExits) {
+      throw new Error("Mensagem do erro");
+    }
+
+    return this.usersRepository.create({ email, name });
   }
 }
 
